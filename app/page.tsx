@@ -59,7 +59,7 @@ export default function Home() {
 	}, []);
 
 	return (
-		<main className='flex min-h-screen flex-col items-center justify-center px-4 md:px-8 xl:px-10 space-y-5'>
+		<main className='flex min-h-screen flex-col items-center justify-center py-12 px-4 md:px-8 xl:px-10 space-y-5'>
 			<div ref={imageWrapperRef}>
 				<Image
 					src='/jointhubs.svg'
@@ -70,7 +70,7 @@ export default function Home() {
 			</div>
 			<h1
 				ref={headingRef}
-				className='heading text-4xl font-bold text-white mb-12'
+				className='heading text-center text-4xl font-bold text-white mb-12'
 			>
 				Features Showcase
 			</h1>
