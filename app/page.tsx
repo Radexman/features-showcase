@@ -8,6 +8,7 @@ import { useGSAP } from '@gsap/react';
 import AreaChartComponent from './components/AreaChartComponent';
 import BarChartComponent from './components/BarChartComponent';
 import LineChartComponent from './components/LineChartComponent';
+import PieChartComponent from './components/PieChartComponent';
 
 gsap.registerPlugin(useGSAP);
 
@@ -74,14 +75,35 @@ export default function Home() {
 			>
 				Features Showcase
 			</h1>
-			<div className='grid grid-cols-1 xl:grid-cols-2 gap-10 w-full max-w-[1400px]'>
+			<div className='grid grid-cols-1 xl:grid-cols-4 xl:grid-rows-[400px_400px_400px] gap-6 w-full max-w-[1400px]'>
+				<div ref={addToRefs}>
+					<GridItem title='Company Preview' />
+				</div>
+				<div ref={addToRefs}>
+					<GridItem title='Sentiment Pie Chart'>
+						<PieChartComponent />
+					</GridItem>
+				</div>
 				<div
 					ref={addToRefs}
 					className='xl:col-span-2'
 				>
+					<GridItem title='Article Title' />
+				</div>
+				<div
+					ref={addToRefs}
+					className='xl:col-span-3'
+				>
 					<GridItem title='Sentiment Area Chart'>
 						<AreaChartComponent />
 					</GridItem>
+				</div>
+
+				<div
+					ref={addToRefs}
+					className='xl:row-span-2'
+				>
+					<GridItem title='Select Company' />
 				</div>
 
 				<div ref={addToRefs}>
@@ -90,7 +112,10 @@ export default function Home() {
 					</GridItem>
 				</div>
 
-				<div ref={addToRefs}>
+				<div
+					ref={addToRefs}
+					className='xl:col-span-2'
+				>
 					<GridItem title='Price Line Chart'>
 						<LineChartComponent />
 					</GridItem>
@@ -102,12 +127,12 @@ export default function Home() {
 
 type GridItemProps = {
 	title: string;
-	children: ReactNode;
+	children?: ReactNode;
 };
 
 function GridItem({ title, children }: GridItemProps) {
 	return (
-		<div className='flex flex-col items-center  justify-center p-4 border border-slate-900 bg-slate-900/50 rounded-xl h-[400px]'>
+		<div className='flex flex-col items-center justify-center p-4 border border-slate-900 bg-[#161C31] rounded-xl min-h-[400px] h-full'>
 			<h2 className='text-2xl font-semibold text-white mb-4'>{title}</h2>
 			{children}
 		</div>

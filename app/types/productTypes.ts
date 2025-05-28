@@ -10,5 +10,11 @@ type ChartTwoProduct = {
 	profit: number;
 };
 
+type ChartThreeProduct = {
+	name: 'positive' | 'neutral' | 'negative';
+	value: number;
+};
+
 export type ChartOneTypes = ChartOneProduct[];
 export type ChartTwoTypes = ChartTwoProduct[];
+export type ChartThreeTypes = ChartThreeProduct[];
