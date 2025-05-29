@@ -41,7 +41,7 @@ const PieChartComponent = () => {
 					nameKey='name'
 					cx='50%'
 					cy='50%'
-					outerRadius={120}
+					outerRadius={70}
 					fill='#3b82fb'
 					label={({ name, value }) => `${name}: ${value}`}
 					labelLine={false}

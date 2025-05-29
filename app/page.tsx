@@ -1,9 +1,11 @@
 'use client';
 
-import { useRef, ReactNode } from 'react';
+import { useRef, useEffect, ReactNode } from 'react';
 import Image from 'next/image';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { createSwapy } from 'swapy';
+import type { Swapy } from 'swapy';
 
 import AreaChartComponent from './components/AreaChartComponent';
 import BarChartComponent from './components/BarChartComponent';
@@ -16,6 +18,24 @@ export default function Home() {
 	const imageWrapperRef = useRef(null);
 	const headingRef = useRef(null);
 	const gridItemRefs = useRef<HTMLDivElement[]>([]);
+	const swapy = useRef<Swapy | null>(null);
+	const container = useRef(null);
+
+	useEffect(() => {
+		if (container.current) {
+			swapy.current = createSwapy(container.current, {
+				enabled: true,
+			});
+		}
+
+		swapy.current!.onSwap((event) => {
+			console.log('swap', event);
+		});
+
+		return () => {
+			swapy.current?.destroy();
+		};
+	}, []);
 
 	// Populate refs safely
 	gridItemRefs.current = [];
@@ -51,11 +71,11 @@ export default function Home() {
 				{
 					y: 60,
 					opacity: 0,
-					duration: 0.6,
+					duration: 0.4,
 					stagger: 0.2,
 					ease: 'power3.out',
 				},
-				'-=0.2'
+				'-=0.15'
 			);
 	}, []);
 
@@ -75,26 +95,49 @@ export default function Home() {
 			>
 				Features Showcase
 			</h1>
-			<div className='grid grid-cols-1 xl:grid-cols-4 xl:grid-rows-[400px_400px_400px] gap-6 w-full max-w-[1400px]'>
-				<div ref={addToRefs}>
-					<GridItem title='Company Preview' />
+			<div
+				ref={container}
+				className='grid grid-cols-1 xl:grid-cols-4 xl:grid-rows-[minmax(300px,_auto)_minmax(400px,_auto)_minmax(400px,_auto)] gap-6 w-full max-w-[1400px]'
+			>
+				<div
+					ref={addToRefs}
+					data-swapy-slot='a'
+				>
+					<GridItem
+						title='Company Preview'
+						item='a'
+					/>
 				</div>
-				<div ref={addToRefs}>
-					<GridItem title='Sentiment Pie Chart'>
+				<div
+					ref={addToRefs}
+					data-swapy-slot='b'
+				>
+					<GridItem
+						title='Sentiment Pie Chart'
+						item='b'
+					>
 						<PieChartComponent />
 					</GridItem>
 				</div>
 				<div
 					ref={addToRefs}
 					className='xl:col-span-2'
+					data-swapy-slot='c'
 				>
-					<GridItem title='Article Title' />
+					<GridItem
+						title='Article Title'
+						item='c'
+					/>
 				</div>
 				<div
 					ref={addToRefs}
 					className='xl:col-span-3'
+					data-swapy-slot='d'
 				>
-					<GridItem title='Sentiment Area Chart'>
+					<GridItem
+						title='Sentiment Area Chart'
+						item='d'
+					>
 						<AreaChartComponent />
 					</GridItem>
 				</div>
@@ -102,12 +145,22 @@ export default function Home() {
 				<div
 					ref={addToRefs}
 					className='xl:row-span-2'
+					data-swapy-slot='e'
 				>
-					<GridItem title='Select Company' />
+					<GridItem
+						title='Select Company'
+						item='e'
+					/>
 				</div>
 
-				<div ref={addToRefs}>
-					<GridItem title='Price Bar Chart'>
+				<div
+					ref={addToRefs}
+					data-swapy-slot='f'
+				>
+					<GridItem
+						title='Price Bar Chart'
+						item='f'
+					>
 						<BarChartComponent />
 					</GridItem>
 				</div>
@@ -115,8 +168,12 @@ export default function Home() {
 				<div
 					ref={addToRefs}
 					className='xl:col-span-2'
+					data-swapy-slot='g'
 				>
-					<GridItem title='Price Line Chart'>
+					<GridItem
+						title='Price Line Chart'
+						item='g'
+					>
 						<LineChartComponent />
 					</GridItem>
 				</div>
@@ -127,12 +184,16 @@ export default function Home() {
 
 type GridItemProps = {
 	title: string;
+	item: string;
 	children?: ReactNode;
 };
 
-function GridItem({ title, children }: GridItemProps) {
+function GridItem({ title, item, children }: GridItemProps) {
 	return (
-		<div className='flex flex-col items-center justify-center p-4 border border-slate-900 bg-[#161C31] rounded-xl min-h-[400px] h-full'>
+		<div
+			className='flex flex-col items-center justify-center p-4 border border-slate-900 bg-[#161C31] rounded-xl min-h-[300px] h-full shadow-md shadow-gray-900'
+			data-swapy-item={item}
+		>
 			<h2 className='text-2xl font-semibold text-white mb-4'>{title}</h2>
 			{children}
 		</div>
